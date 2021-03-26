@@ -198,7 +198,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
             public Void call() throws Exception {
                 try {
                     String path = pathToDelete;
-                    final String filePrefix = "file://";
+                    final String filePrefix = "";
                     if (path.startsWith(filePrefix)) {
                         path = path.substring(filePrefix.length());
                     }
@@ -524,7 +524,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
                             video.putString("mime", mime);
                             video.putInt("size", (int) new File(videoPath).length());
                             video.putInt("duration", (int) duration);
-                            video.putString("path", "file://" + videoPath);
+                            video.putString("path", videoPath);
                             video.putString("modificationDate", String.valueOf(modificationDate));
 
                             resultCollector.notifySuccess(video);
@@ -590,7 +590,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
         BitmapFactory.Options options = validateImage(compressedImagePath);
         long modificationDate = new File(path).lastModified();
 
-        image.putString("path", "file://" + compressedImagePath);
+        image.putString("path", compressedImagePath);
         image.putInt("width", options.outWidth);
         image.putInt("height", options.outHeight);
         image.putString("mime", options.outMimeType);
