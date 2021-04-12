@@ -674,6 +674,14 @@ RCT_EXPORT_METHOD(openCropper:(NSDictionary *)options
     {
         NSArray *assetIdentifiers = @[pickerResult.assetIdentifier];
         PHAsset *phAsset = [[PHAsset fetchAssetsWithLocalIdentifiers:assetIdentifiers options:nil] firstObject];
+
+        if (phAsset.localIdentifier == nil) {
+            // If we have no local id, we likely do not have permission to this asset
+            [picker dismissViewControllerAnimated:YES completion:[self waitAnimationEnd:^{
+                self.reject(ERROR_PICKER_UNAUTHORIZED_KEY, ERROR_PICKER_UNAUTHORIZED_MSG, nil);
+            }]];
+            return;
+        }
         
         [self getPhotoAssetSimple:phAsset completion:^(NSDictionary *image) {
             dispatch_async(dispatch_get_main_queue(), ^{
