@@ -482,6 +482,7 @@ declare module "react-native-image-crop-picker" {
         clean(): Promise<void>;
         cleanSingle(path: string): Promise<void>;
         getPhotoData(assetId: string): Promise<Image>;
+        hasPhotoLibraryFullAccess(): Promise<boolean>; // iOS Only
     }
 
     const ImageCropPicker: ImageCropPicker;

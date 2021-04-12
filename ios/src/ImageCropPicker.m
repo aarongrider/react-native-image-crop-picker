@@ -115,6 +115,19 @@ RCT_EXPORT_MODULE();
     }
 }
 
+RCT_EXPORT_METHOD(hasPhotoLibraryFullAccess:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+{
+    BOOL hasAccess = NO;
+    if (@available(iOS 14, *)) {
+        PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatusForAccessLevel:PHAccessLevelReadWrite];
+        if (status == PHAuthorizationStatusAuthorized) hasAccess = YES;
+    } else {
+        // Fallback on earlier versions
+        hasAccess = YES;
+    }
+    resolve([NSNumber numberWithBool:hasAccess]);
+}
+
 - (void) setConfiguration:(NSDictionary *)options
                  resolver:(RCTPromiseResolveBlock)resolve
                  rejecter:(RCTPromiseRejectBlock)reject {
